@@ -2,14 +2,8 @@ import { motion, useScroll } from "framer-motion";
 import { useRef } from "react";
 
 import { Button } from "@/components/ui/button";
-import { ThemeProvider } from "@/components/theme-provider";
-import "./App.css";
-
-import linkedinLogo from "/linkedin.svg";
-import githubLogo from "/github.svg";
-import resumeLogo from "/resume.svg";
-import emailLogo from "/email.svg";
 import { Badge } from "@/components/ui/badge";
+import { ThemeProvider } from "@/components/theme-provider";
 import {
   Timeline,
   TimelineContent,
@@ -18,6 +12,13 @@ import {
   TimelineItem,
   TimelineLine,
 } from "./components/ui/timeline/timeline";
+import "./App.css";
+
+import linkedinLogo from "/icons/linkedin.svg";
+import githubLogo from "/icons/github.svg";
+import resumeLogo from "/icons/resume.svg";
+import emailLogo from "/icons/email.svg";
+import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 
 const Header = () => {
   return (
@@ -184,6 +185,63 @@ const Experience = () => {
   );
 };
 
+const Projects = () => {
+  const projectsArr = [
+    {
+      title: "Mywheels",
+      imgSrc: "/icons/mywheels.svg",
+      description:
+        "SEO friendly automotive news web-platform for Chinapress. Made for web and mobile with NextJS, Ant Desgin, Django, GraphQL, WagtailCMS and PostgreSQL",
+    },
+    {
+      title: "Jamit!",
+      imgSrc: "/icons/jamit.svg",
+      description:
+        "Storytelling web platform with a gamification twist. Made for web with React, Material UI, Express, GraphQL, Websockets and MongoDB",
+    },
+    {
+      title: "buddylim.github.io/portfolio (v1)",
+      imgSrc: "/icons/portfolio-v1.svg",
+      description:
+        "Personal portfolio designed on Figma, built with React and Framer Motion",
+    },
+  ];
+
+  return (
+    <div className="flex flex-col mt-32 gap-20">
+      {projectsArr.map((project) => {
+        const { title, imgSrc, description } = project;
+        return (
+          <div className="flex flex-row">
+            <div className="w-[40%]">
+              <AspectRatio ratio={16 / 9}>
+                <img src={imgSrc} className="object-cover mt-[5px]" />
+              </AspectRatio>
+            </div>
+            <div className="flex flex-col justify-start items-start w-[60%]">
+              <span>{title}</span>
+              <p className="text-start text-sm text-[#D0C7C7] mt-4">
+                {description}
+              </p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+const Footer = () => {
+  return (
+    <div className="mt-40 text-[#D0C7C7] text-sm mb-8">
+      <p>
+        Portfolio designed on Figma. Built using React, Vite, Tailwind, Framer
+        Motion and ShadCN
+      </p>
+    </div>
+  );
+};
+
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
@@ -191,6 +249,8 @@ function App() {
         <Header />
         <About />
         <Experience />
+        <Projects />
+        <Footer />
       </div>
     </ThemeProvider>
   );
