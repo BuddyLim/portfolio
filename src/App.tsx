@@ -36,7 +36,9 @@ const NewTabLink = ({ url, additionalCls = "", children }: NewTabLinkProps) => (
   <a
     href={url}
     target="_blank"
-    className={`hover:text-[#02C9D7] group-hover:text-[#02C9D7] group-hover:text-[1.02rem] md:group-hover:text-[1.16rem] duration-150 transition-all group md:hover:text-[1.16rem] hover:text-[1.02rem] focus-visible:text-[#02C9D7] ring-offset-2 focus-visible:ring-[#02C9D7]/30 cursor-pointer ${additionalCls}`}
+    rel="noopener noreferrer"
+    className={`hover:text-[#02C9D7] group-hover:text-[#02C9D7] group-hover:text-[1.02rem] md:group-hover:text-[1.16rem] duration-300 transition-all group md:hover:text-[1.16rem] hover:text-[1.02rem]
+    focus:outline-none focus-visible:text-[#02C9D7] focus:ring-2 ring-inset focus:border-[#02C9D7]/30 focus-visible:ring-[#02C9D7]/30 cursor-pointer ${additionalCls}`}
     onClick={(event) => event.currentTarget.blur()}
   >
     {children}
@@ -125,7 +127,7 @@ const ExperienceTimeline = () => {
       end: "Present",
       title: "Digital Solutions Engineer - Airbus",
       content:
-        "I work to develop and provide inputs on innovative solutions in the aerospace industry using both current and new emerging technologies",
+        "Develop end to end digital solutions based on new and emerging technologies. Working closely with innovation team to help bring forth and validate ideas",
       badges: [
         "Typescript",
         "Python",
@@ -144,7 +146,7 @@ const ExperienceTimeline = () => {
       end: "2022",
       title: "Software Associate - Redsquare",
       content:
-        "My primary responsibility is to develop Front-End using React & Back-End using Django. I work with teams of 6 to develop and deliver solutions that are 20 screens and above per projects as per required by clients.",
+        "Developed, shipped and maintained high quality websites for multiple clients",
       badges: [
         "TS/JS",
         "Python",
@@ -163,7 +165,7 @@ const ExperienceTimeline = () => {
       end: "2021",
       title: "Web/UX Developer - SEAM LLC",
       content:
-        "My primary responsibility is to develop Front-End using React & Back-End using Django. I work with teams of 6 to develop and deliver solutions that are 20 screens and above per projects as per required by clients.",
+        "Developed storytelling platform both in the front end and back end while working closely with other engineers and designers",
       badges: [
         "Javascript",
         "NodeJS",
@@ -183,7 +185,7 @@ const ExperienceTimeline = () => {
     return (
       // <a href={url} target="_blank" tabIndex={-1}>
       <TimelineItem
-        className="cursor-pointer group hover:bg-[#02C9D7]/[.03] duration-150 rounded-md px-8 md:px-2 py-4"
+        className="cursor-pointer group hover:bg-[#02C9D7]/[.03] transition-all duration-300 rounded-md px-8 md:px-2 py-4"
         onClick={() => {
           openNewTabRedirect(url);
         }}
@@ -229,7 +231,7 @@ const ExperienceTimeline = () => {
 const MaskedIcon = ({ iconURL }: { iconURL: string }) => {
   return (
     <span
-      className="icon bg-[#F2F2F2] group-hover:bg-[#02C9D7] duration-150 mb-[2px] w-5 h-5 flex group-focus-within:bg-[#02C9D7] active:bg-[#F2F2F2]"
+      className="icon bg-[#F2F2F2] group-hover:bg-[#02C9D7] duration-300 mb-[2px] w-5 h-5 flex group-focus-within:bg-[#02C9D7] active:bg-[#F2F2F2]"
       style={{
         maskImage: `url(${iconURL})`,
         WebkitMaskImage: `url(${iconURL})`,
@@ -246,20 +248,18 @@ const Experience = () => {
         className="[&>li]:grid-cols-[0.63fr_min-content_3fr] min-[419px]:[&>li]:grid-cols-[0.485fr_min-content_3fr] [&>li]:gap-x-1 sm:[&>li]:gap-x-3"
       >
         <ExperienceTimeline />
-        <TimelineItem className="px-16">
-          <TimelineContent side="right" className="ml-7 mt-8 text-white">
-            <NewTabLink
-              url="./resume.pdf"
-              additionalCls="flex flex-row gap-2 text-sm md:text-base"
-            >
-              <>
-                <span>View Full Resume</span>
-                <MaskedIcon iconURL="./icons/forward.svg" />
-              </>
-            </NewTabLink>
-          </TimelineContent>
-        </TimelineItem>
       </Timeline>
+      <div className="h-12 mt-5 pl-28">
+        <NewTabLink
+          url="./resume.pdf"
+          additionalCls="flex flex-row gap-2 text-sm md:text-base w-fit"
+        >
+          <>
+            <span>View Full Resume</span>
+            <MaskedIcon iconURL="./icons/forward.svg" />
+          </>
+        </NewTabLink>
+      </div>
     </section>
   );
 };
@@ -297,7 +297,7 @@ const Projects = () => {
     <section className="flex flex-col mt-32">
       {projectsArr.map(({ title, imgSrc, description, url, imgAltDesc }) => (
         <div
-          className="flex flex-col hover:bg-[#02C9D7]/[.05] transition-all duration-150 rounded-md cursor-pointer group px-12 md:px-8 py-16"
+          className="flex flex-col hover:bg-[#02C9D7]/[.05] transition-all duration-300 rounded-md cursor-pointer group px-12 md:px-8 py-16"
           onClick={() => {
             openNewTabRedirect(url);
           }}
