@@ -268,30 +268,34 @@ const Projects = () => {
   const projectsArr = [
     {
       title: "Mywheels",
-      imgSrc: "/icons/mywheels.svg",
+      imgSrc: "./icons/mywheels.svg",
       description:
         "SEO friendly automotive news web-platform for Chinapress. Made for web and mobile with NextJS, Ant Design, Django, GraphQL, WagtailCMS and PostgreSQL",
+      imgAltDesc: "Image of Mywheels website",
       url: "https://mywheels.my",
     },
     {
       title: "Jamit!",
-      imgSrc: "/icons/jamit.svg",
+      imgSrc: "./icons/jamit.svg",
       description:
         "Storytelling web platform with a gamification twist. Made for web with React, Material UI, Express, GraphQL, Websockets and MongoDB",
+      imgAltDesc: "Image of Jamit! website",
       url: "https://client.jamit.io",
     },
     {
       title: "buddylim.github.io/portfolio (v1)",
-      imgSrc: "/icons/portfolio-v1.svg",
+      imgSrc: "./icons/portfolio-v1.svg",
       description:
         "Personal portfolio designed on Figma, built with React and Framer Motion",
+      imgAltDesc: "Image of my v1 portfolio website",
+
       url: "https://buddylim.github.io/portfolio-v1",
     },
   ];
 
   return (
     <section className="flex flex-col mt-32">
-      {projectsArr.map(({ title, imgSrc, description, url }) => (
+      {projectsArr.map(({ title, imgSrc, description, url, imgAltDesc }) => (
         <div
           className="flex flex-col hover:bg-[#02C9D7]/[.05] transition-all duration-150 rounded-md cursor-pointer group px-12 md:px-8 py-16"
           onClick={() => {
@@ -301,7 +305,13 @@ const Projects = () => {
         >
           <div>
             <AspectRatio ratio={16 / 9}>
-              <img src={imgSrc} className="object-cover mt-1 w-[100%]" />
+              <img
+                width="640"
+                height="360"
+                src={imgSrc}
+                className="object-cover mt-1 w-[100%]"
+                alt={imgAltDesc}
+              />
             </AspectRatio>
           </div>
           <div className="flex flex-col items-start mt-2 ">
@@ -347,6 +357,7 @@ const BackgroundImage = ({
       className={`${additionalClass}`}
       src={url}
       transition={{ type: "tween" }}
+      alt={`background-image-${url}`}
     />
   );
 };
