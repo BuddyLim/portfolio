@@ -1,10 +1,4 @@
-import {
-  motion,
-  MotionValue,
-  useMotionValue,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { motion, MotionValue, useScroll, useTransform } from "framer-motion";
 import React, { forwardRef, useRef } from "react";
 
 import { Badge } from "@/components/ui/badge";
@@ -16,7 +10,7 @@ import {
   TimelineHeading,
   TimelineItem,
   TimelineLine,
-} from "@/components/ui/timeline/timeline";
+} from "@/components/ui/timeline";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 
 import useWindowSize from "@/hooks/useWindowSize";
@@ -49,17 +43,17 @@ const NewTabLink = ({ url, additionalCls = "", children }: NewTabLinkProps) => (
   </a>
 );
 
-const Header = () => {
-  return (
-    <header className="sticky top-0 py-3 px-0.5 bg-[#242222] z-10">
-      <div className="grid grid-flow-col border-b-[#D0C7C7] border-b-[0.2px] py-3 justify-between">
-        <span className="text-sm md:text-lg lg:text-xl">About</span>
-        <span className="text-sm md:text-lg lg:text-xl">Experience</span>
-        <span className="text-sm md:text-lg lg:text-xl">Projects</span>
-      </div>
-    </header>
-  );
-};
+// const Header = () => {
+//   return (
+//     <header className="sticky top-0 py-3 px-0.5 bg-[#242222] z-10">
+//       <div className="grid grid-flow-col border-b-[#D0C7C7] border-b-[0.2px] py-3 justify-between">
+//         <span className="text-sm md:text-lg lg:text-xl">About</span>
+//         <span className="text-sm md:text-lg lg:text-xl">Experience</span>
+//         <span className="text-sm md:text-lg lg:text-xl">Projects</span>
+//       </div>
+//     </header>
+//   );
+// };
 
 const About = forwardRef((_, ref: React.Ref<HTMLElement>) => {
   const additionalLinks = [
