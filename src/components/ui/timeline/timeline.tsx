@@ -18,21 +18,21 @@ const timelineVariants = cva("grid", {
 });
 
 interface TimelineProps
-  extends React.HTMLAttributes<HTMLUListElement>,
+  extends React.HTMLAttributes<HTMLOListElement>,
     VariantProps<typeof timelineVariants> {}
 
-const Timeline = React.forwardRef<HTMLUListElement, TimelineProps>(
+const Timeline = React.forwardRef<HTMLOListElement, TimelineProps>(
   ({ children, className, positions, ...props }, ref) => {
     return (
-      <ul
+      <ol
         className={cn(timelineVariants({ positions }), className)}
         ref={ref}
         {...props}
       >
         {children}
-      </ul>
+      </ol>
     );
-  },
+  }
 );
 Timeline.displayName = "Timeline";
 
@@ -59,7 +59,7 @@ const TimelineItem = React.forwardRef<HTMLLIElement, TimelineItemProps>(
       ref={ref}
       {...props}
     />
-  ),
+  )
 );
 TimelineItem.displayName = "TimelineItem";
 
@@ -80,7 +80,7 @@ const timelineDotVariants = cva(
     defaultVariants: {
       status: "default",
     },
-  },
+  }
 );
 
 interface TimelineDotProps
@@ -98,7 +98,7 @@ const TimelineDot = React.forwardRef<HTMLDivElement, TimelineDotProps>(
         "![&>.lucide-circle]:bg-[#02C9D7]",
         "!fill-[#02C9D7]",
         timelineDotVariants({ status }),
-        className,
+        className
       )}
       ref={ref}
       {...props}
@@ -107,13 +107,13 @@ const TimelineDot = React.forwardRef<HTMLDivElement, TimelineDotProps>(
         strokeWidth={0}
         color="#02C9D7"
         fill="#02c9d7"
-        className="size-10 opacity-7 !fill-[#02C9D7] opacity-70"
+        className="size-5 sm:size-10 opacity-7 !fill-[#02C9D7] opacity-70"
       />
       <Check className="size-3" />
       <X className="size-3" />
       {customIcon}
     </div>
-  ),
+  )
 );
 TimelineDot.displayName = "TimelineDot";
 
@@ -129,7 +129,7 @@ const timelineContentVariants = cva(
     defaultVariants: {
       side: "right",
     },
-  },
+  }
 );
 
 interface TimelineContentProps
@@ -143,7 +143,7 @@ const TimelineContent = React.forwardRef<HTMLDivElement, TimelineContentProps>(
       ref={ref}
       {...props}
     />
-  ),
+  )
 );
 TimelineContent.displayName = "TimelineContent";
 
@@ -164,7 +164,7 @@ const timelineHeadingVariants = cva(
       side: "right",
       variant: "primary",
     },
-  },
+  }
 );
 
 interface TimelineHeadingProps
@@ -198,13 +198,13 @@ const TimelineLine = React.forwardRef<HTMLHRElement, TimelineLineProps>(
         className={cn(
           "col-start-2 col-end-3 row-start-2 row-end-2 mx-auto flex h-full min-h-16 w-0.5 justify-center rounded-full",
           done ? "bg-primary" : "bg-muted",
-          className,
+          className
         )}
         ref={ref}
         {...props}
       />
     );
-  },
+  }
 );
 TimelineLine.displayName = "TimelineLine";
 

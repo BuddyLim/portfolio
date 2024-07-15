@@ -1,3 +1,7 @@
+html{
+  position: relative
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -6,6 +10,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-x: hidden;
 }
 
 .logo {
@@ -42,4 +47,13 @@
 
 .read-the-docs {
   color: #242222;
+}
+
+.icon {
+  mask-size: 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  width: 24px;
+  height: 24px;
 }
