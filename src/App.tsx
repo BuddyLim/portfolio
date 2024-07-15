@@ -332,7 +332,7 @@ const Footer = () => {
     <footer className="mt-44 text-[#D0C7C7] text-xs mb-8 px-8 md:px-0">
       <p>
         Portfolio designed on Figma. Built using React, Vite, Tailwind, Framer
-        Motion and ShadCN
+        Motion and shadcn
       </p>
     </footer>
   );
