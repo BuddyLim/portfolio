@@ -1,5 +1,13 @@
-import { motion, MotionValue, useScroll, useTransform } from "framer-motion";
-import React, { forwardRef, useRef } from "react";
+import {
+  motion,
+  MotionValue,
+  useInView,
+  useScroll,
+  useTransform,
+} from "framer-motion";
+import React, { forwardRef, HTMLProps, useEffect, useRef } from "react";
+
+import { useIntersectionStore } from "@/store/intersection";
 
 import { Badge } from "@/components/ui/badge";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -25,100 +33,158 @@ import "./App.css";
 interface NewTabLinkProps extends React.PropsWithChildren {
   url: string;
   children: string | React.ReactElement;
-  additionalCls?: string;
+  className?: HTMLProps<HTMLElement>["className"];
 }
 
 const openNewTabRedirect = (url: string) => {
   window.open(url, "_blank");
 };
 
-const NewTabLink = ({ url, additionalCls = "", children }: NewTabLinkProps) => (
+const NewTabLink = ({ url, className = "", children }: NewTabLinkProps) => (
   <a
     href={url}
     target="_blank"
     rel="noopener noreferrer"
     className={`hover:text-[#02C9D7] group-hover:text-[#02C9D7] group-hover:text-[1.02rem] md:group-hover:text-[1.16rem] duration-300 transition-all group md:hover:text-[1.16rem] hover:text-[1.02rem]
-    focus:outline-none focus-visible:text-[#02C9D7] focus:ring-2 ring-inset focus:border-[#02C9D7]/30 focus-visible:ring-[#02C9D7]/30 cursor-pointer ${additionalCls}`}
+    focus:outline-none focus-visible:text-[#02C9D7] focus:ring-2 ring-inset focus:border-[#02C9D7]/30 focus-visible:ring-[#02C9D7]/30 cursor-pointer ${className}`}
     onClick={(event) => event.currentTarget.blur()}
   >
     {children}
   </a>
 );
 
-// const Header = () => {
-//   return (
-//     <header className="sticky top-0 py-3 px-0.5 bg-[#242222] z-10">
-//       <div className="grid grid-flow-col border-b-[#D0C7C7] border-b-[0.2px] py-3 justify-between">
-//         <span className="text-sm md:text-lg lg:text-xl">About</span>
-//         <span className="text-sm md:text-lg lg:text-xl">Experience</span>
-//         <span className="text-sm md:text-lg lg:text-xl">Projects</span>
-//       </div>
-//     </header>
-//   );
-// };
+const Header = () => {
+  const { view } = useIntersectionStore();
+  const scrollToView = (id: string) => {
+    if (document.getElementById(id) == null) return;
 
-const About = forwardRef((_, ref: React.Ref<HTMLElement>) => {
-  const additionalLinks = [
+    window.scrollTo({
+      behavior: "smooth",
+      top:
+        document.getElementById(id)!.getBoundingClientRect().top -
+        document.body.getBoundingClientRect().top -
+        60,
+    });
+  };
+
+  const headerList = [
     {
-      iconURL: "./icons/linkedin.svg",
-      text: "LinkedIn",
-      url: "https://www.linkedin.com/in/lim-kt/",
+      id: "about",
+      text: "About",
     },
     {
-      iconURL: "./icons/github.svg",
-      text: "Github",
-      url: "https://github.com/BuddyLim",
+      id: "experience",
+      text: "Experience",
     },
     {
-      iconURL: "./icons/resume.svg",
-      text: "Resume",
-      url: "./resume.pdf",
-    },
-    {
-      iconURL: "./icons/email.svg",
-      text: "Email",
-      url: "mailto:buddy.tlimk@gmail.com",
+      id: "projects",
+      text: "Projects",
     },
   ];
 
   return (
-    <section
-      ref={ref}
-      className="flex flex-col gap-24 mt-40 items-center relative"
-    >
-      <motion.div
-        className="flex flex-col flex-initial items-start pl-10 min-[374px]:pl-0 text-[#F2F2F2]"
-        // style={{ opacity: scrollYProgressIntro }}
-      >
-        <span className="text-1xl md:text-2xl lg:text-3xl">Hello! I'm —</span>
-        <span className="text-4xl md:text-5xl lg:text-6xl font-bold mt-2">
-          Lim Kuang Tar
-        </span>
-        <span className="text-xl md:text-2xl lg:text-3xl font-semibold mt-8">
-          Fullstack Developer
-        </span>
-        <span className="text-sm md:text-lg lg:text-xl w-80 text-start mt-2">
-          Ready to deliver your big ideas to life
-        </span>
-      </motion.div>
-      <ul
-        className="flex flex-col gap-y-9 items-center"
-        // style={{ opacity: scrollYProgressLinks }}
-      >
-        {additionalLinks.map(({ iconURL, text, url }) => (
-          <li className="h-12" key={url}>
-            <NewTabLink url={url} additionalCls="flex flex-row gap-2">
-              <>
-                <MaskedIcon iconURL={iconURL} />
-                <span className="text-sm md:text-md lg:text-base">{text}</span>
-              </>
-            </NewTabLink>
-          </li>
+    <header className="fixed bg-[#242222] z-10 w-full max-w-[443px]">
+      <div className="grid grid-flow-col border-b-[#D0C7C7] border-b-[0.2px] py-3 px-2 justify-between">
+        {headerList.map(({ id, text }) => (
+          <motion.button
+            key={id}
+            className="text-sm md:text-lg lg:text-xl focus:outline-none focus:ring focus:ring-[#02C9D7]/30"
+            onClick={() => scrollToView(id)}
+            animate={{
+              opacity: view === id ? 1 : 0.2,
+            }}
+          >
+            {text}
+          </motion.button>
         ))}
-      </ul>
-    </section>
+      </div>
+    </header>
   );
-});
+};
+
+const About = forwardRef(
+  (
+    { windowHeight }: { windowHeight: number },
+    fadeOutRef: React.ForwardedRef<HTMLElement>
+  ) => {
+    const inViewRef = useRef(null);
+    const isInView = useInView(inViewRef, {
+      // margin: "-100px 0px 0px 0px",
+      amount: windowHeight > 420 ? 0.6 : 0.2,
+    });
+    const { view, setCurrentView } = useIntersectionStore();
+
+    useEffect(() => {
+      if (view !== "about") {
+        setCurrentView("about");
+      }
+    }, [isInView]);
+
+    const additionalLinks = [
+      {
+        iconURL: "./icons/linkedin.svg",
+        text: "LinkedIn",
+        url: "https://www.linkedin.com/in/lim-kt/",
+      },
+      {
+        iconURL: "./icons/github.svg",
+        text: "Github",
+        url: "https://github.com/BuddyLim",
+      },
+      {
+        iconURL: "./icons/resume.svg",
+        text: "Resume",
+        url: "./resume.pdf",
+      },
+      {
+        iconURL: "./icons/email.svg",
+        text: "Email",
+        url: "mailto:buddy.tlimk@gmail.com",
+      },
+    ];
+
+    return (
+      <section
+        ref={fadeOutRef}
+        className="flex flex-col gap-24 items-center relative min-h-lvh justify-center"
+        id="about"
+      >
+        <div
+          ref={inViewRef}
+          className="flex flex-col flex-initial items-start pl-10 min-[374px]:pl-0 text-[#F2F2F2] pt-20"
+        >
+          <span className="text-1xl md:text-2xl lg:text-3xl">Hello! I'm —</span>
+          <span className="text-4xl md:text-5xl lg:text-6xl font-bold mt-2">
+            Lim Kuang Tar
+          </span>
+          <span className="text-xl md:text-2xl lg:text-3xl font-semibold mt-8">
+            Fullstack Developer
+          </span>
+          <span className="text-sm md:text-lg lg:text-xl w-80 text-start mt-2">
+            Ready to deliver your big ideas to life
+          </span>
+        </div>
+        <ul
+          className="flex flex-col gap-y-9 items-center"
+          // style={{ opacity: scrollYProgressLinks }}
+        >
+          {additionalLinks.map(({ iconURL, text, url }) => (
+            <li className="h-12" key={url}>
+              <NewTabLink url={url} className="flex flex-row gap-2">
+                <>
+                  <MaskedIcon iconURL={iconURL} />
+                  <span className="text-sm md:text-md lg:text-base">
+                    {text}
+                  </span>
+                </>
+              </NewTabLink>
+            </li>
+          ))}
+        </ul>
+      </section>
+    );
+  }
+);
 
 const ExperienceTimeline = () => {
   const timelineArr = [
@@ -146,7 +212,7 @@ const ExperienceTimeline = () => {
       end: "2022",
       title: "Software Associate - Redsquare",
       content:
-        "Developed, shipped and maintained high quality websites for multiple clients",
+        "Developed, shipped and maintained high quality websites for multiple clients with other engineers while mentoring junior engineers",
       badges: [
         "TS/JS",
         "Python",
@@ -195,8 +261,8 @@ const ExperienceTimeline = () => {
           side="left"
           className="w-full text-xs md:text-sm text-[#D0C7C7] line-clamp-none whitespace-pre-line text-right flex flex-col"
         >
-          <span>{end}</span>
-          <span>{start}</span>
+          <time>{end}</time>
+          <time>{start}</time>
         </TimelineHeading>
         <TimelineHeading
           side="right"
@@ -240,9 +306,31 @@ const MaskedIcon = ({ iconURL }: { iconURL: string }) => {
   );
 };
 
-const Experience = () => {
+const Experience = ({
+  showTitle,
+  windowHeight,
+}: {
+  showTitle: boolean;
+  windowHeight: number;
+}) => {
+  const inViewRef = useRef(null);
+  const isInView = useInView(inViewRef, {
+    // margin: "100% 0px 0px 0px",
+    amount: windowHeight > 420 ? 0.5 : 0.2,
+  });
+  const { view, setCurrentView } = useIntersectionStore();
+
+  useEffect(() => {
+    if (view !== "experience") {
+      setCurrentView("experience");
+    }
+  }, [isInView]);
+
   return (
-    <section className="mt-32 w-full sm:px-0">
+    <section ref={inViewRef} className="mt-32 w-full sm:px-0" id="experience">
+      {showTitle ? (
+        <p className="my-8 text-lg text-[#02C9D7]/[.8]">Experience</p>
+      ) : null}
       <Timeline
         positions="left"
         className="[&>li]:grid-cols-[0.63fr_min-content_3fr] min-[419px]:[&>li]:grid-cols-[0.485fr_min-content_3fr] [&>li]:gap-x-1 sm:[&>li]:gap-x-3"
@@ -252,7 +340,7 @@ const Experience = () => {
       <div className="h-12 mt-5 pl-28">
         <NewTabLink
           url="./resume.pdf"
-          additionalCls="flex flex-row gap-2 text-sm md:text-base w-fit"
+          className="flex flex-row gap-2 text-sm md:text-base w-fit"
         >
           <>
             <span>View Full Resume</span>
@@ -264,7 +352,26 @@ const Experience = () => {
   );
 };
 
-const Projects = () => {
+const Projects = ({
+  showTitle,
+  windowHeight,
+}: {
+  showTitle: boolean;
+  windowHeight: number;
+}) => {
+  const inViewRef = useRef(null);
+  const isInView = useInView(inViewRef, {
+    // margin: "100px 0px 0px 0px",
+    amount: windowHeight > 420 ? 0.4 : 0.2,
+  });
+  const { view, setCurrentView } = useIntersectionStore();
+
+  useEffect(() => {
+    if (view !== "projects") {
+      setCurrentView("projects");
+    }
+  }, [isInView]);
+
   const projectsArr = [
     {
       title: "Mywheels",
@@ -294,10 +401,13 @@ const Projects = () => {
   ];
 
   return (
-    <section className="flex flex-col mt-32">
+    <section ref={inViewRef} className="flex flex-col mt-32" id="projects">
+      {showTitle ? (
+        <p className="my-8 text-lg text-[#02C9D7]/[.8]">Projects</p>
+      ) : null}
       {projectsArr.map(({ title, imgSrc, description, url, imgAltDesc }) => (
         <div
-          className="flex flex-col hover:bg-[#02C9D7]/[.05] transition-all duration-300 rounded-md cursor-pointer group px-12 md:px-8 py-16"
+          className="flex flex-col hover:bg-[#02C9D7]/[.05] transition-all duration-300 rounded-md cursor-pointer group px-12 md:px-8 py-14"
           onClick={() => {
             openNewTabRedirect(url);
           }}
@@ -317,7 +427,7 @@ const Projects = () => {
           <div className="flex flex-col items-start mt-2 ">
             <NewTabLink
               url={url}
-              additionalCls="inline-block align-baseline leading-10  text-base md:text-lg"
+              className="inline-block align-baseline leading-10  text-base md:text-lg"
             >
               {title}
             </NewTabLink>
@@ -344,17 +454,17 @@ const Footer = () => {
 
 const BackgroundImage = ({
   url,
-  additionalClass,
+  className,
   mousePosition,
 }: {
   url: string;
-  additionalClass: string;
+  className?: HTMLProps<HTMLElement>["className"];
   mousePosition?: { x: number; y: number };
 }) => {
   return (
     <motion.img
       animate={mousePosition}
-      className={`${additionalClass}`}
+      className={`${className}`}
       src={url}
       transition={{ type: "tween" }}
       alt={`background-image-${url}`}
@@ -366,52 +476,53 @@ const Background = ({ opacity }: { opacity: MotionValue<number> }) => {
   //Parallax scroll fade out opacity!!
   return (
     <motion.div
-      className="w-[100%] h-screen fixed -z-1 "
+      className="w-[100%] h-screen fixed -z-1"
       style={{ opacity: opacity }}
     >
       <BackgroundImage
         url={RectangleRed}
-        additionalClass="absolute bottom-10 min-[549px]:bottom-16 lg:bottom-44 -right-28 min-[549px]:-right-24 h-36 lg:h-48"
+        className="absolute bottom-10 min-[549px]:bottom-16 lg:bottom-44 -right-28 min-[549px]:-right-24 h-36 lg:h-48"
       />
       <BackgroundImage
         url={HalfYellow}
-        additionalClass="absolute -bottom-16 min-[549px]:-bottom-18 -right-6 min-[549px]:-right-0 lg:right-0 h-40 min-[549px]:h-48 lg:h-72"
+        className="absolute -bottom-16 min-[549px]:-bottom-18 -right-6 min-[549px]:-right-0 lg:right-0 h-40 min-[549px]:h-48 lg:h-72"
       />
       <BackgroundImage
         url={Triangle}
-        additionalClass="absolute top-8 min-[549px]:top-16 lg:top-24 -left-[7.5rem] min-[549px]:-left-28 h-40 min-[549px]:h-48 lg:h-64"
+        className="absolute top-8 min-[549px]:top-16 lg:top-24 -left-[7.5rem] min-[549px]:-left-28 h-40 min-[549px]:h-48 lg:h-64"
       />
       <BackgroundImage
         url={CircleGreen}
-        additionalClass="absolute -top-10 min-[549px]:-top-8 -left-20 min-[549px]:-left-14 h-40 min-[549px]:h-44 lg:h-60"
+        className="absolute -top-10 min-[549px]:-top-8 -left-20 min-[549px]:-left-14 h-40 min-[549px]:h-44 lg:h-60"
       />
-      {/* <ParallaxBackground /> */}
     </motion.div>
   );
 };
 
 function App() {
-  const windowSize = useWindowSize();
+  const { width = 0, height = 0 } = useWindowSize();
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["end 0.5", "start .5"],
+    offset: ["end 0.4", "start .5"],
   });
   const opacity = useTransform(
     scrollYProgress,
     [0, 1],
-    [windowSize && windowSize > 549 ? 1 : 0.2, 1]
+    [width > 549 ? 1 : 0.2, 1]
   );
+
+  const showTitle = width > 549 ? false : true;
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Background opacity={opacity} />
+      {showTitle ? null : <Header />}
       <div className="min-[500px]:w-[443px] relative z-1 overflow-x-none">
-        {/* <Header /> */}
         <main className="relative" style={{ position: "relative" }}>
-          <About ref={ref} />
-          <Experience />
-          <Projects />
+          <About ref={ref} windowHeight={height} />
+          <Experience showTitle={showTitle} windowHeight={height} />
+          <Projects showTitle={showTitle} windowHeight={height} />
         </main>
         <Footer />
       </div>

@@ -3,15 +3,19 @@ import { useState, useEffect } from "react";
 function useWindowSize() {
   const isWindowClient = typeof window === "object";
 
-  const [windowSize, setWindowSize] = useState(
-    isWindowClient ? window.innerWidth : undefined
-  );
+  const [windowSize, setWindowSize] = useState({
+    width: isWindowClient ? window.innerWidth : undefined,
+    height: isWindowClient ? window.innerHeight : undefined,
+  });
 
   //👇
   useEffect(() => {
     //a handler which will be called on change of the screen resize
     function setSize() {
-      setWindowSize(window.innerWidth);
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
     }
 
     if (isWindowClient) {
