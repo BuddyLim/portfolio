@@ -89,7 +89,10 @@ const Header = () => {
           <motion.button
             key={id}
             className="text-sm md:text-lg lg:text-xl focus:outline-none focus:ring focus:ring-[#02C9D7]/30"
-            onClick={() => scrollToView(id)}
+            onClick={(e) => {
+              e.currentTarget.blur();
+              scrollToView(id);
+            }}
             animate={{
               opacity: view === id ? 1 : 0.2,
             }}
