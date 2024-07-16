@@ -1,4 +1,3 @@
-import { openNewTabRedirect } from "@/lib/utils";
 import { HTMLProps } from "react";
 
 interface NewTabLinkProps extends React.PropsWithChildren {
@@ -19,7 +18,6 @@ export const NewTabLink = ({
     className={`hover:text-[#02C9D7] group-hover:text-[#02C9D7] group-hover:text-[1.02rem] md:group-hover:text-[1.16rem] duration-300 transition-all group md:hover:text-[1.16rem] hover:text-[1.02rem]
     focus:outline-none focus-visible:text-[#02C9D7] focus:ring-2 ring-inset focus:border-[#02C9D7]/30 focus-visible:ring-[#02C9D7]/30 cursor-pointer ${className}`}
     onClick={(event) => event.currentTarget.blur()}
-    // onAuxClick={() => openNewTabRedirect(url)}
   >
     {children}
   </a>
