@@ -64,7 +64,7 @@ const TimelineItem = React.forwardRef<HTMLLIElement, TimelineItemProps>(
 TimelineItem.displayName = "TimelineItem";
 
 const timelineDotVariants = cva(
-  "col-start-2 col-end-3 row-start-1 row-end-1 flex size-5 items-center justify-center rounded-full",
+  "col-start-2 col-end-3 row-start-1 row-end-1 flex size-4 lg:size-5 items-center justify-center rounded-full",
   {
     variants: {
       status: {
@@ -196,8 +196,8 @@ const TimelineLine = React.forwardRef<HTMLHRElement, TimelineLineProps>(
         role="separator"
         aria-orientation="vertical"
         className={cn(
-          "col-start-2 col-end-3 row-start-2 row-end-2 mx-auto flex h-full min-h-16 w-0.5 justify-center rounded-full",
-          done ? "bg-primary" : "bg-muted",
+          "col-start-2 col-end-3 row-start-2 row-end-2 mx-auto flex h-full min-h-16 w-px justify-center rounded-full",
+          done ? "bg-[#F2F2F2]/70" : "bg-muted",
           className
         )}
         ref={ref}
