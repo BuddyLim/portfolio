@@ -154,12 +154,12 @@ export const Experience = ({
       </Timeline>
       <div className="h-12 mt-5 pl-28">
         <NewTabLink
-          url="/resume.pdf"
+          url="./resume.pdf"
           className="flex flex-row gap-2 text-sm md:text-base w-fit font-thin"
         >
           <>
             <span>View Full Resume</span>
-            <MaskedIcon iconURL="/icons/forward.svg" />
+            <MaskedIcon iconURL="./icons/forward.svg" />
           </>
         </NewTabLink>
       </div>

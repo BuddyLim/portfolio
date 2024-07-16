@@ -23,22 +23,22 @@ export const About = forwardRef(
 
     const additionalLinks = [
       {
-        iconURL: "/icons/linkedin.svg",
+        iconURL: "./icons/linkedin.svg",
         text: "LinkedIn",
         url: "https://www.linkedin.com/in/lim-kt/",
       },
       {
-        iconURL: "/icons/github.svg",
+        iconURL: "./icons/github.svg",
         text: "Github",
         url: "https://github.com/BuddyLim",
       },
       {
-        iconURL: "/icons/resume.svg",
+        iconURL: "./icons/resume.svg",
         text: "Resume",
-        url: "/resume.pdf",
+        url: "./resume.pdf",
       },
       {
-        iconURL: "/icons/email.svg",
+        iconURL: "./icons/email.svg",
         text: "Email",
         url: "mailto:buddy.tlimk@gmail.com",
       },

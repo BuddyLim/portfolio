@@ -28,7 +28,7 @@ const Projects = ({
   const projectsArr = [
     {
       title: "Mywheels",
-      imgSrc: "/icons/mywheels.svg",
+      imgSrc: "./icons/mywheels.svg",
       description:
         "SEO friendly automotive news web-platform for Chinapress. Made for web and mobile with NextJS, Ant Design, Django, GraphQL, WagtailCMS and PostgreSQL",
       imgAltDesc: "Image of Mywheels website",
@@ -36,7 +36,7 @@ const Projects = ({
     },
     {
       title: "Jamit!",
-      imgSrc: "/icons/jamit.svg",
+      imgSrc: "./icons/jamit.svg",
       description:
         "Storytelling web platform with a gamification twist. Made for web with React, Material UI, Express, GraphQL, Websockets and MongoDB",
       imgAltDesc: "Image of Jamit! website",
@@ -44,7 +44,7 @@ const Projects = ({
     },
     {
       title: "buddylim.github.io/portfolio (v1)",
-      imgSrc: "/icons/portfolio-v1.svg",
+      imgSrc: "./icons/portfolio-v1.svg",
       description:
         "Personal portfolio designed on Figma, built with React and Framer Motion",
       imgAltDesc: "Image of my v1 portfolio website",
