@@ -94,7 +94,8 @@ const Header = () => {
               scrollToView(id);
             }}
             animate={{
-              opacity: view === id ? 1 : 0.2,
+              opacity: view === id ? 1 : 0.66,
+              fontWeight: view === id ? 400 : 300,
             }}
           >
             {text}
@@ -156,14 +157,16 @@ const About = forwardRef(
           ref={inViewRef}
           className="flex flex-col flex-initial items-start pl-10 min-[374px]:pl-0 text-[#F2F2F2] pt-20"
         >
-          <span className="text-1xl md:text-2xl lg:text-3xl">Hello! I'm —</span>
+          <span className="text-1xl md:text-2xl lg:text-3xl font-light">
+            Hello! I'm —
+          </span>
           <span className="text-4xl md:text-5xl lg:text-6xl font-bold mt-2">
             Lim Kuang Tar
           </span>
           <span className="text-xl md:text-2xl lg:text-3xl font-semibold mt-8">
             Fullstack Developer
           </span>
-          <span className="text-sm md:text-lg lg:text-xl w-80 text-start mt-2">
+          <span className="text-sm md:text-lg lg:text-xl w-80 text-start mt-2 font-light">
             Ready to deliver your big ideas to life
           </span>
         </div>
@@ -173,10 +176,13 @@ const About = forwardRef(
         >
           {additionalLinks.map(({ iconURL, text, url }) => (
             <li className="h-12" key={url}>
-              <NewTabLink url={url} className="flex flex-row gap-2">
+              <NewTabLink
+                url={url}
+                className="flex flex-row gap-2 font-light items-center"
+              >
                 <>
                   <MaskedIcon iconURL={iconURL} />
-                  <span className="text-sm md:text-md lg:text-base">
+                  <span className="text-sm md:text-md lg:text-base ">
                     {text}
                   </span>
                 </>
@@ -254,7 +260,7 @@ const ExperienceTimeline = () => {
     return (
       // <a href={url} target="_blank" tabIndex={-1}>
       <TimelineItem
-        className="cursor-pointer group hover:bg-[#02C9D7]/[.03] transition-all duration-300 rounded-md px-8 md:px-2 py-4"
+        className="cursor-pointer group hover:bg-[#02C9D7]/[.045] transition-all duration-300 rounded-md px-8 md:px-2 py-4"
         onClick={() => {
           openNewTabRedirect(url);
         }}
@@ -262,7 +268,7 @@ const ExperienceTimeline = () => {
       >
         <TimelineHeading
           side="left"
-          className="w-full text-xs md:text-sm text-[#D0C7C7] line-clamp-none whitespace-pre-line text-right flex flex-col"
+          className="w-full text-xs md:text-sm text-[#D0C7C7] line-clamp-none whitespace-pre-line text-right flex flex-col font-thin"
         >
           <time>{end}</time>
           <time>{start}</time>
@@ -276,7 +282,7 @@ const ExperienceTimeline = () => {
         <TimelineDot status="current" />
         {index === timelineArr.length - 1 ? null : <TimelineLine done />}
         <TimelineContent side="right">
-          <p className="mt-6 text-[#D0C7C7] text-sm md:text-md line-clamp-none whitespace-pre-line">
+          <p className="mt-6 text-[#D0C7C7] text-sm md:text-md line-clamp-none whitespace-pre-line font-thin">
             {content}
           </p>
           <ul className="flex flex-wrap gap-1.5 mt-8">
@@ -343,7 +349,7 @@ const Experience = ({
       <div className="h-12 mt-5 pl-28">
         <NewTabLink
           url="./resume.pdf"
-          className="flex flex-row gap-2 text-sm md:text-base w-fit"
+          className="flex flex-row gap-2 text-sm md:text-base w-fit font-thin"
         >
           <>
             <span>View Full Resume</span>
@@ -410,7 +416,7 @@ const Projects = ({
       ) : null}
       {projectsArr.map(({ title, imgSrc, description, url, imgAltDesc }) => (
         <div
-          className="flex flex-col hover:bg-[#02C9D7]/[.05] transition-all duration-300 rounded-md cursor-pointer group px-12 md:px-8 py-14"
+          className="flex flex-col hover:bg-[#02C9D7]/[.045] transition-all duration-300 rounded-md cursor-pointer group px-12 md:px-8 py-14"
           onClick={() => {
             openNewTabRedirect(url);
           }}
@@ -424,6 +430,7 @@ const Projects = ({
                 src={imgSrc}
                 className="object-cover mt-1 w-[100%]"
                 alt={imgAltDesc}
+                loading="lazy"
               />
             </AspectRatio>
           </div>
@@ -434,7 +441,7 @@ const Projects = ({
             >
               {title}
             </NewTabLink>
-            <p className="text-start text-sm md:text-md text-[#D0C7C7] mt-2">
+            <p className="text-start text-sm md:text-md text-[#D0C7C7] mt-2 font-thin">
               {description}
             </p>
           </div>
@@ -446,7 +453,7 @@ const Projects = ({
 
 const Footer = () => {
   return (
-    <footer className="mt-44 text-[#D0C7C7] text-xs mb-8 px-8 md:px-0">
+    <footer className="mt-44 text-[#D0C7C7] text-xs mb-8 px-8 md:px-0 font-thin">
       <p>
         Portfolio designed on Figma. Built using React, Vite, Tailwind, Framer
         Motion and shadcn

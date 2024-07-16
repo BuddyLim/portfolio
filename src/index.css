@@ -1,12 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap'); */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -38,7 +33,6 @@
   }
 
   .dark {
-    --background: 0 3% 14%;
     --foreground: 210 40% 98%;
 
     --card: 222.2 84% 4.9%;
@@ -73,8 +67,12 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-[#242222] text-foreground;
+    /* @apply bg-background text-foreground; */
     font-family: "Poppins", sans-serif;
   }
 }
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
